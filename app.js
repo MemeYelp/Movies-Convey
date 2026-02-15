@@ -17,7 +17,7 @@ const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const passport = require('passport');
 const localStartegy = require('passport-local');
-const sanitizeV5 = require('./Utils/mongoSanitize');
+const sanitizeV5 = require('./utils/mongoSanitize');
 const helmet = require('helmet');
 
 
