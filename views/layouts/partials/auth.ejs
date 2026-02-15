@@ -1,0 +1,33 @@
+
+
+<div class="modal fade" id="login" tabindex="-1" aria-labelledby="loginmodel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginmodel">Login</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body mb-3">
+                <form id="auth-login" class="row g-3 needs-validation" action="/login" method="post" novalidate>
+                    <div class="col-md-12">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" required>
+                        <div class="invalid-feedback">
+                            Please choose a username.
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" id="password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p class="me-auto">Don't have an account? <a href="/register">Sign up</a></p>
+                <button type="submit" form="auth-login" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+    </div>
+</div>

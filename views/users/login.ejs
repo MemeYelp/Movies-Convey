@@ -1,0 +1,36 @@
+<% layout('./layouts/boilerplate') %>
+
+<div class="mt-5 d-flex align-items-center justify-content-center p-3 ">
+    <div class="card shadow-lg" data-bs-theme="dark">
+  <div class="card-header">
+    Login
+  </div>
+  <div class="card-body">
+    <form id="page-login" class="row g-3 needs-validation" action="/login" method="post" novalidate>
+        <div class="col-md-12">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" id="username" required>
+            <div class="invalid-feedback">
+                Please choose a username.
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <label for="lpassword" class="form-label">Password</label>
+            <div class="input-group">
+                <input type="password" name="password" class="form-control" id="lpassword" required>
+                <span class="input-group-text bg-dark p-0 rounded-end-2">
+                <button id="pswdbtnl" onclick="lshow()" type="button" class="btn"><i id="l-eye" class="bi bi-eye"></i></button>
+                </span>
+            </div>
+            
+        </div>
+    </form>
+    
+  </div>
+    <div class="card-footer d-flex align-items-center">
+        <p class="d-inline-block mb-0 me-auto">Don't have an account? <a href="/register">Sign up</a></p>
+        <button  form="page-login" type="submit" class="btn btn-primary ms-auto">Login</button>
+    </div>
+</div>
+</div>

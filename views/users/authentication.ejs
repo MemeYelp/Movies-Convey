@@ -1,0 +1,38 @@
+<% layout('./layouts/boilerplate') %>
+
+<div class="mt-4 d-flex align-items-center justify-content-center p-3 ">
+    <div class="card shadow-lg" data-bs-theme="dark">
+  <div class="card-header">
+    Register
+  </div>
+  <div class="card-body">
+    <form id="page-signUp" class="row g-3 needs-validation mb-3" action="/register" method="post" novalidate>
+        <div class="col-md-12">
+            <input type="text" class="form-control" name="username" value="<%= username %>" hidden required>
+        </div>
+
+       
+
+        <div class="col-md-12">
+            <label for="email" class="form-label">We sent a code to your inbox</label>
+            <input type="email" class="form-control disabled" name="email" value="<%= email %>" readonly required>
+        </div>
+
+
+         <div class="col-md-12">
+            <input type="password" class="form-control" name="password" value="<%= password %>" hidden required>
+        </div>
+
+        <div class="col-md-12">
+            <label for="otp" class="form-label d-flex">OTP <small class="ms-auto text-body-secondary">Valid for: 5min</small></label>
+            <input type="text" inputmode="numeric" pattern="[0-9]{6}" class="form-control" name="otp" id="otp" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,6)" maxlength="6" required>
+        </div>
+
+    </form>
+    
+  </div>
+    <div class="card-footer d-flex align-items-center">
+        <button  form="page-signUp" type="submit" class="btn btn-primary ms-auto">Register</button>
+    </div>
+</div>
+</div>

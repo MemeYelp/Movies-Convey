@@ -1,0 +1,72 @@
+<% layout('./layouts/boilerplate') %>
+
+
+<div class="mt-5 d-flex justify-content-center align-items-center p-3">
+<div class="card shadow-lg col-lg-6" data-bs-theme="dark">
+  <div class="card-header ">
+    Sign Up
+  </div>
+  <div class="card-body">
+    <form id="page-signUp" class="row g-3 needs-validation" action="/registration" method="post" novalidate>
+        <div class="col-md-6">
+            <label for="firstname" class="form-label">First name</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" required>
+            <div class="valid-feedback">
+            Looks good!
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <label for="lastname" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" required>
+            <div class="valid-feedback">
+            Looks good!
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" name="username" id="username" pattern="[a-z0-9]{3,20}"  required>
+            <div class="invalid-feedback">
+            Must be 8-20 characters long, username should not contain any characters and spaces.
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+        </div>
+
+        <div class="col-md-12">
+            <label for="rpassword" class="form-label">Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="password" id="rpassword" pattern="(?=.*\d).{8,}" aria-describedby="passhelp" required>
+                <span class="input-group-text bg-dark p-0 rounded-end-2">
+                <button id="pswdbtn" onclick="show()" type="button" class="btn"><i id="bi-eye" class="bi bi-eye"></i></button>
+                </span>
+                <div class="valid-feedback">
+                Looks good!
+                </div>
+                <div class="invalid-feedback">
+                Must contain at least one number, and 8 characters.
+                </div>
+                </div>
+
+            
+            <span id="passhelp" class="form-text">
+            Must be 8-20 characters long.
+            </span>
+        </div>
+
+    </form>
+    
+  </div>
+    <div class="card-footer d-flex align-items-center">
+        <p class="d-inline-block mb-0 me-auto">Already have an account? <a href="/login">Log in</a></p>
+        <button  form="page-signUp" type="submit" class="btn btn-primary ms-auto">Sign Up</button>
+    </div>
+</div>
+</div>
+
+
+
