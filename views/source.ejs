@@ -1,0 +1,139 @@
+<% layout('./layouts/boilerplate') %>
+
+
+<h1 class="fs-3 mb-4 pb-1">All <%= source %> Titles</h1>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-5 mb-5">
+    <% for (let title of titles.titles) { %>
+        <div class="col">
+            <div class="card text-center h-100 d-flex flex-column bg-dark shadow title-hover">
+                    <a href="/titles/<%= title.id %>">
+                        <img src="https://cdn.watchmode.com/posters/0<%=title.id%>_poster_w342.jpg"
+                            class="card-img px-0-top" alt="...">
+                        <svg hidden="true" class="rounded-3 im~g-fluid" viewBox="0 0 200 280" xmlns="http://www.w3.org">
+                            <use xlink:href="#title-poster"></use>
+                        </svg>
+                        </a>
+                        <div class="d-flex p-2 tleID">
+                        <form action="/user/wishlist" method="post" id="wishlist" data-titleid="<%= title.id %>">
+                            <input name="_id" type="hidden" value="<%= title.id %>" required>
+                            <button class="btn btn-dark border text-light border-light border-1 rounded-circle" type="submit" id="wishlistSubmit" data-bs-toggle="tooltip" 
+                                data-bs-placement="top" data-bs-title="Add to wishlist" data-bs-custom-class="custom-tooltip">
+                                <i class="bi bi-bookmark"></i></button>
+                            </form>
+                        </div>
+                        <a class="text-light text-decoration-none"
+                            href="/titles/<%= title.id %>" id="<%= title.id %>">
+                            
+                            <div class="d-flex align-items-center ps-2 justify-content-between">
+                            <p class="me-auto card-text fw-bold text-start m-0 text-secondary fs-6 text-capitalize">
+                                <%= title.year %> <%= title.type.replace('_', ' ') %> 
+                            </p>
+                            <form action="/user/watched" method="post" id="watched" data-titleid="<%= title.id %>">
+                                <input name="_id" type="hidden" value="<%= title.id %>" required>
+                                <button class="btn btn-transparent fs-5 py-1" type="submit" id="watchedSubmit" data-bs-toggle="tooltip" 
+                                    data-bs-placement="top" data-bs-title="Mark as watched" data-bs-custom-class="custom-tooltip">
+                                        <i class="fa-regular fa-circle-check"></i></button>
+                            </form>
+                        </div>
+                    <hr class="my-0">
+                    <div class="card-body flex-grow-1 d-flex align-items-center justify-content-center">
+                        <h5 class="card-title fw-bold">
+                            <%= title.title %>
+                        </h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<div class="py-4">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center ">
+            <% if(titles.page <= 4 ) {%>
+
+                <% if(titles.page > 1 ) {%>
+                <li class="page-item">
+                    <a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.page-1 %>" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-chevron-left fa-lg"></i></span>
+                    </a>
+                </li>
+                <% } %>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/1">1</a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/2">2</a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/3">3</a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/4">4</a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/5">5</a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0">...</a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.total_pages %>"><%= titles.total_pages %></a></li>
+                <li class="page-item">
+                    <a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.page+1 %>" aria-label="Next">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-chevron-right fa-lg"></i></span>
+                    </a>
+                </li>
+
+            <%} else if (titles.page > titles.total_pages-4 ){ %>
+                
+                
+                <li class="page-item">
+                    <a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.page-1 %>" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa-solid fa-circle-chevron-left fa-lg"></i></span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/1">1</a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0">...</a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.total_pages-4 %>"><%= titles.total_pages-4 %></a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.total_pages-3 %>"><%= titles.total_pages-3 %></a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.total_pages-2 %>"><%= titles.total_pages-2 %></a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.total_pages-1 %>"><%= titles.total_pages-1 %></a></li>
+                <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.total_pages %>"><%= titles.total_pages %></a></li>
+
+
+                <% if(titles.page < titles.total_pages ) {%>    
+                    <li class="page-item">
+                        <a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.page+1 %>" aria-label="Next">
+                            <span aria-hidden="true"><i class="fa-solid fa-circle-chevron-right fa-lg"></i></span>
+                        </a>
+                    </li>
+                <% } %>
+            <% } else { %>
+            
+            <li class="page-item">
+                <a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.page-1 %>" aria-label="Previous">
+                    <span aria-hidden="true"><i class="fa-solid fa-circle-chevron-left fa-lg"></i></span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/1">1</a></li>
+            <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0">...</a></li>
+            <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.page-1 %>"><%= titles.page-1 %></a></li>
+            <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="#" aria-current="page"><%= titles.page %></a></li>
+            <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.page+1 %>"><%= titles.page+1 %></a></li>
+            <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0">...</a></li>
+            <li class="page-item"><a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.total_pages %>"><%= titles.total_pages %></a></li>
+            <li class="page-item">
+                <a class="page-link text-dark bg-transparent fw-bold border-0 focus-ring focus-ring-light rounded-pill px-0" href="/titles/source/<%= source %>/<%= source_id %>/<%= titles.page+1 %>" aria-label="Next">
+                    <span aria-hidden="true"><i class="fa-solid fa-circle-chevron-right fa-lg"></i></span>
+                </a>
+            </li>
+
+            <% } %>
+            
+
+        </ul>
+    </nav>
+</div>
+
+
+
+<% if(currentUser){ %>
+    <script>
+        const userTitles = <%- JSON.stringify(currentUser.userTitles) %> ;
+    </script>
+<% }else{ %>
+  <script>
+        const userTitles = [] ;
+    </script>
+<% } %>
+
+<script src="/javascripts/listTitleCheck.js"></script>

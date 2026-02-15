@@ -1,0 +1,248 @@
+<% layout('./layouts/boilerplate') %>
+
+  <div class="container">
+    <div class="container row justify-content-center mb-4">
+      <div class="card mb-3 bg-dark col-12 col-xl-10 bg-opacity-25 border-0 rounded-3 px-0">
+        <div class="shadow rounded-3">
+          <div class="row g-0">
+
+  <div class="col-md-6 col-lg-4 align-self-start d-flex justify-content-center p-2">
+    <img src="https://cdn.watchmode.com/posters/0<%=title.id%>_poster_w342.jpg" class="img-fluid rounded-2" alt="...">
+    <svg hidden="true" class="rounded-3 img-fluid" viewBox="0 0 200 280">
+      <use xlink:href="#title-poster"></use>
+    </svg>
+  </div>
+  <div class="col-md-6 col-lg-8">
+    <div class="card-body fw-medium">
+      <h5 class="card-title fs-2 text-uppercase fw-bold">
+        <%= title.title %>
+      </h5>
+      <p class="card-text mb-2"><%= title.original_title %></p>
+      <p class="card-text text-capitalize fw-semibold text-body-secondary mb-1">
+        <%= title.year %> <%= title.type.replace('_', ' ') %>
+      </p>
+      <p class="card-text mb-2"><small class=" text-center">Realese Date: <%= title.release_date
+            %></small></p>
+      <p class="card-text mb-2">Runtime: <%= title.runtime_minutes /= 1 %> Min</p>
+      <p class="card-text mb-2">Certificate: <%= title.us_rating %>
+      </p>
+      <p class="card-text">Language: <%= title.original_language %>
+      </p>
+      <p class="card-text d-inline text-decoration-underline link-offset-1">
+        <svg class="me-1" height="22" width="22">
+        <% if(title.critic_score >= 75) {%>
+          <use xlink:href="#t-full"></use>
+        <% }else if(title.critic_score >= 60){ %>
+          <use xlink:href="#t-half"></use>
+        <% }else if(title.critic_score >= 0){ %>
+          <use xlink:href="#t-low"></use>
+          <% }else{ %>
+          <use xlink:href="#t-empty"></use>
+        <% } %>
+        </svg>
+        <%= title.critic_score %>%
+      </p>
+      <p class="card-text d-inline mx-3 text-decoration-underline link-offset-1">
+        <svg class="me-1" height="22" width="22">
+        <% if(title.user_rating >= 9) {%>
+          <use xlink:href="#b-full"></use>
+        <% }else if(title.user_rating >= 6){ %>
+          <use xlink:href="#b-half"></use>
+        <% }else if(title.user_rating >= 0){ %>
+          <use xlink:href="#b-low"></use>
+        <% }else{ %>
+          <use xlink:href="#b-empty"></use>
+        <% } %>
+        </svg>
+        <%= title.user_rating %>/10
+      </p>
+      <p class="card-text d-flex flex-wrap my-lg-2">
+        <% if(title.genres != null) {%>
+        <% for(let i=0; i < title.genres.length; i++) {%>
+          <a class="text-dark text-decoration-none card-link mt-2 px-3 py-1 rounded-pill bg-dark bg-opacity-25 genre-hover"
+            href="/titles/genre/<%= title.genre_names[i] %>/<%= title.genres[i] %>/1">
+            <%= title.genre_names[i] %>
+          </a>
+          <% } %>
+        <% } %>
+      </p>
+      <form action="/user/wishlist" method="post" id="formWishlist">
+          <input name="_id" type="hidden" value="<%= title.id %>" required>
+        </form>
+        
+        <form action="/user/watched" method="post" id="formWatched">
+          <input name="_id" type="hidden" value="<%= title.id %>" required>
+        </form>
+
+      <div class="btn-toolbar col-12 my-3">
+        <div class="me-2 col-10 col-lg-4 mb-2">
+          <button class="btn col-12 genre-hover text-dark fw-semibold py-3 bg-opacity-25 bg-dark" type="submit" id="wishlistTitle" form="formWishlist">
+            Add to Wishlist<i class="bi bi-bookmark ps-2 "></i></button>
+            
+        </div>
+        <div class="col-10 col-lg-4">
+          <button class="btn col-12 genre-hover text-dark fw-semibold py-3 bg-opacity-25 bg-dark" type="submit" id="watchedTitle"  form="formWatched">
+            Mark as Watched<i class="fa-regular fa-circle-check ps-2"></i></button>
+        </div>
+      </div>
+
+
+        
+    </div>
+  </div>
+
+
+  <div class="col-md-12">
+    <div class="card-body fw-medium fs-6">
+      <% if(title.plot_overview) {%>
+      <p class="card-text"><b>Summary:- </b>
+        <%= title.plot_overview %>
+      </p>
+      <% } %>
+
+      <% if(title.genres != null) {%>
+      <p class="card-text mt-2"><b>Genres:- </b>
+        <% for(let i=0; i < title.genres.length; i++) {%>
+          <a class="text-dark card-link ps-1"
+            href="/titles/genre/<%= title.genre_names[i] %>/<%= title.genres[i] %>/1">
+            <%= title.genre_names[i] %>
+          </a>
+          <% } %>
+      </p>
+      <% } %>
+
+      
+
+        <% if(title.sources && title.sources.length){ %>
+        <p class="card-text mb-0">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Watch Now</button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" data-bs-theme="dark">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasRightLabel">Streaming Sources:-</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <% title.sources.forEach(src => { %>
+                  <% if(src.format == 'HD' || src.format == '4K'){ %>
+                  <div class="card mb-3">
+                    <div class="card-header d-flex">
+                      <div class="card-title me-auto mb-0">
+                        <a href="/titles/source/<%= src.name %>/<%= src.source_id %>" class="text-decoration-none text-light"><%= src.name %></a>
+                      </div>
+                      <small class="text-capitalize text-secondary fs-6">
+                        <%=src.format%> <i class="fw-bold fs-5">•</i> <%=src.type%>
+                        <%if(src.price){%> <i class="fw-bold fs-5">•</i>
+                        <% if(src.region == 'IN'){ %>₹<%}else{%>$<%}%><%=src.price%><%}%>
+                      </small>
+                    </div>
+                    <div class="card-body">
+                      <a href="<%= src.web_url %>" class="btn btn-primary">Watch On <%= src.name %></a>
+                    </div>
+                  </div>
+                  <% } %>
+                  <% }) %>
+                </div>
+              </div>
+            </p>
+            <% } %>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div class="container">
+  <div class="container row justify-content-center mb-4">
+    <div class="card mb-3 bg-transparent col-12 col-xl-10 border-0 px-0 rounded-3">
+      <div class="rounded-3">
+        <div class="row g-3">
+
+          
+          <% if(title.trailer && title.trailer.length){ %>
+          <% if(!title.similar_titles && !title.similar_titles.length){ %>
+            <div class="col-md-12 col-lg-12 me-auto">
+            <% }else{ %>
+            <div class="col-md-6 col-lg-8 me-auto">
+            <% } %>
+            <div class="shadow rounded-3 bg-dark bg-opacity-25 h-100 ">
+            <div class="card-body fw-medium h-100">
+              <h5 class="card-title fs-2 fw-bold text-center">
+                Trailer:-
+              </h5>
+              <div class="d-flex justify-content-center trailer">
+              <iframe class="rounded-3 m-2"
+                src="<%= title.trailer.replace('watch?v=', 'embed/') %>"
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope;
+              picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+              </iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% } %>
+
+          <% if(title.similar_titles && title.similar_titles.length){ %>
+          <div class="col-md-6 col-lg-4">
+            <div class="shadow bg-dark bg-opacity-25 rounded-3">
+              <div class="card-body fw-medium">
+              <h5 class="card-title fs-3 fw-bold text-center">More Like This:- </h5>
+
+              <div class="rounded-3">
+                <div id="title-suggest" class="carousel slide">
+                  <div class="carousel-inner">
+                  <% title.similar_titles.forEach(id => { %>
+                    <% if (title.similar_titles[0] == id){ %>
+                    <div class="carousel-item active">
+                    <% }else{ %>
+                    <div class="carousel-item">
+                    <% } %>
+                      <a class="stretched-link" href="/titles/<%=id %>">
+                        <img src="https://cdn.watchmode.com/posters/0<%=id%>_poster_w342.jpg" class="d-block w-100 rounded-3" alt="...">
+                      </a>
+                    </div>
+                  <% }) %>
+
+
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#title-suggest" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#title-suggest" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% if(currentUser){ %>
+    <script>
+        const titleId = <%= title.id %> ;
+        const userTitles = <%- JSON.stringify(currentUser.userTitles) %> ;
+    </script>
+<% }else{ %>
+  <script>
+        const titleId = <%= title.id %> ;
+        const userTitles = [] ;
+    </script>
+<% } %>
+
+<script src="/javascripts/titlecheck.js"></script>

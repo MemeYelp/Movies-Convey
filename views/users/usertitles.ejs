@@ -1,0 +1,62 @@
+<% layout('./layouts/boilerplate') %>
+
+<h1 class="fs-3 mb-4 pb-1"><%= type %> Titles</h1>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-5 mb-5">
+    <% for (let title of titles) { %>
+        <div class="col">
+            <div class="card text-center h-100 d-flex flex-column bg-dark shadow title-hover">
+                    <a href="/titles/<%= title.id %>">
+                        <img src="https://cdn.watchmode.com/posters/0<%=title.id%>_poster_w342.jpg" class="card-img px-0-top" alt="...">
+                        <svg hidden="true" class="rounded-3 img-fluid" viewBox="0 0 200 280" xmlns="http://www.w3.org">
+                            <use xlink:href="#title-poster"></use>
+                        </svg>
+                         </a>
+                        <div class="d-flex p-2 tleID">
+                           <form action="/user/wishlist" method="post" id="wishlist" data-titleid="<%= title.id %>">
+                            <input name="_id" type="hidden" value="<%= title.id %>" required>
+                            <button class="btn btn-dark border text-light border-light border-1 rounded-circle" type="submit" id="wishlistSubmit" data-bs-toggle="tooltip" 
+                                data-bs-placement="top" data-bs-title="Add to wishlist" data-bs-custom-class="custom-tooltip">
+                                <i class="bi bi-bookmark"></i></button>
+                            </form>
+                        </div>
+                        <a class="text-light text-decoration-none"
+                            href="/titles/<%= title.id %>" id="<%= title.id %>">
+                            
+                            <div class="d-flex align-items-center ps-2 justify-content-between">
+                            <p class="me-auto card-text fw-bold text-start m-0 text-secondary fs-6 text-capitalize">
+                                <%= title.year %> <%= title.type.replace('_', ' ') %> 
+                            </p>
+
+                            <form action="/user/watched" method="post" id="watched" data-titleid="<%= title.id %>">
+                                <input name="_id" type="hidden" value="<%= title.id %>" required>
+                                <button class="btn btn-transparent fs-5 py-1" type="submit" id="watchedSubmit" data-bs-toggle="tooltip" 
+                                    data-bs-placement="top" data-bs-title="Mark as watched" data-bs-custom-class="custom-tooltip">
+                                        <i class="fa-regular fa-circle-check"></i></button>
+                            </form>
+
+                        </div>
+                    <hr class="my-0">
+                    <div class="card-body flex-grow-1 d-flex align-items-center justify-content-center">
+                        <h5 class="card-title fw-bold">
+                            <%= title.title %>
+                        </h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+
+<% if(currentUser){ %>
+    <script>
+        const userTitles = <%- JSON.stringify(currentUser.userTitles) %> ;
+    </script>
+<% }else{ %>
+  <script>
+        const userTitles = [] ;
+    </script>
+<% } %>
+
+<script src="/javascripts/listTitleCheck.js"></script>

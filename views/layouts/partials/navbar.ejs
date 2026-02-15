@@ -1,0 +1,107 @@
+<% genrelist = [ { id: 1, name: 'Action' }, { id: 39, name: 'Action & Adventure' }, { id: 2,
+    name: 'Adventure' }, { id: 3, name: 'Animation' }, { id: 33, name: 'Anime' }, { id: 31, name: 'Biography' }, { id:
+    4, name: 'Comedy' }, { id: 5, name: 'Crime' }, { id: 6, name: 'Documentary' }, { id: 7, name: 'Drama' }, { id: 8,
+    name: 'Family' }, { id: 9, name: 'Fantasy' }, { id: 34, name: 'Food' }, { id: 28, name: 'Game Show' }, { id: 10,
+    name: 'History' }, { id: 11, name: 'Horror' }, { id: 21, name: 'Kids' }, { id: 12, name: 'Music' }, { id: 32,
+    name: 'Musical' }, { id: 13, name: 'Mystery' }, { id: 36, name: 'Nature' }, { id: 22, name: 'News' }, { id: 23,
+    name: 'Reality' }, { id: 14, name: 'Romance' }, { id: 40, name: 'Sci-Fi & Fantasy' }, { id: 15,
+    name: 'Science Fiction' }, { id: 25, name: 'Soap' }, { id: 29, name: 'Sports' }, { id: 37, name: 'Supernatural' }, {
+    id: 26, name: 'Talk' }, { id: 17, name: 'Thriller' }, { id: 35, name: 'Travel' }, { id: 38, name: 'TV Movie' }, {
+    id: 18, name: 'War' }, { id: 41, name: 'War & Politics' }, { id: 19, name: 'Western' } ] %>
+
+
+<%  OttList = [ { id: 203, name: 'Netflix' }, { id: 26, name: 'Prime Video' }, { id: 372, name: 'Disney+' }, {
+    id: 371, name: 'AppleTV+' }, { id: 157, name: 'Hulu' }, { id: 80, name: 'Crunchyroll Premium' }, { id: 387,
+    name: 'Max' }, { id: 444, name: 'Paramount+' }, { id: 389, name: 'Peacock Premium' }, { id: 32,
+    name: 'BBC America' }, { id: 391, name: 'Pluto TV' }, { id: 296, name: 'Tubi TV' }, { id: 191, name: 'NBC' }, {
+    id: 452, name: 'The Roku Channel' }, { id: 378, name: 'AMC+' }, { id: 284, name: 'The CW' }, { id: 234,
+    name: 'STARZ (Via Amazon Prime)' }, { id: 288, name: 'The History Channel' }, { id: 369, name: 'Youtube Premium'
+    }, { id: 344, name: 'YouTube' }, { id: 199, name: 'National Geographic' }, { id: 91, name: 'Discovery GO' }, {
+    id: 445, name: 'Discovery+' }, ] %>
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary mb-2" data-bs-theme="dark">
+    <div class="container">
+        <a class="navbar-brand focus-ring focus-ring-light py-1 px-2 rounded-2" href="/">Movies Convey</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active focus-ring focus-ring-light rounded-2" aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle focus-ring focus-ring-light rounded-2" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Genres
+                    </a>
+                    <ul class="dropdown-menu mt-2 scrollable-menu border border-secondary border-1 shadow">
+                        <% genrelist.forEach( genre=> { %>
+                            <li><a class="dropdown-item focus-ring focus-ring-light rounded-2" href="/titles/genre/<%= genre.name %>/<%= genre.id %>/1">
+                                    <%= genre.name %>
+                                </a></li>
+                            <% }) %>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle focus-ring focus-ring-light rounded-2" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        OTT
+                    </a>
+                    <ul class="dropdown-menu mt-2 scrollable-menu border border-secondary border-1 shadow">
+                        <% OttList.forEach( src=> { %> 
+                            <li><a class="dropdown-item focus-ring focus-ring-light rounded-2" href="/titles/source/<%= src.name %>/<%= src.id %>/1">
+                                    <%= src.name %>
+                                </a></li>
+                            <% }) %>
+                    </ul>
+                </li>
+                <li class="nav-item "><a class="nav-link focus-ring focus-ring-light rounded-2" href="/titles/all/1">All Titles</a></li>
+            </ul>
+
+            <ul class="navbar-nav me-1 mb-2 mb-lg-0">
+                <li class="nav-item focus-ring pe-2"><a class="nav-link fs-5 py-0 focus-ring focus-ring-light rounded-2" id="navwish" href="/user/wishlist" <% if(!currentUser){%>data-bs-toggle="modal" data-bs-target="#login"<%} %> data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Wishlist">
+                    <i class="bi bi-bookmarks-fill"></i></a></li>
+            </ul>
+            <%if(!currentUser){%>
+            <ul class="navbar-nav me-1 mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link focus-ring focus-ring-light rounded-2" id="navlogin" data-bs-toggle="modal" data-bs-target="#login">Login</a></li>    
+            </ul>
+            <% } %>
+            <%if(currentUser){%>
+            <div class="navbar-nav dropdown mb-2 mb-lg-0">  
+                <a class="nav-link dropdown-toggle focus-ring focus-ring-light rounded-2 " role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <%=currentUser.username%>
+                </a>
+                <ul class="dropdown-menu mt-2 scrollable-menu border border-secondary border-1 shadow">
+                    <li><a class="dropdown-item focus-ring focus-ring-light rounded-2" href="/user/watched">Watched</a></li>
+                    <li><a class="dropdown-item focus-ring focus-ring-light rounded-2" href="/logout">Logout</a></li>
+                </ul>
+            </div>
+            <% } %>
+            
+            <form class="d-flex needs-validation" role="search" action="/titles/search" novalidate >
+                <input class="form-control me-2" type="search" name="query" id="search" placeholder="Search"
+                    aria-label="Search" required/>
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
