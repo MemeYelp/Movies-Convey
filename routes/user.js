@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync')
-const User = require('../models/User')
+const User = require('../models/user')
 const { TitlesSchema } = require('../schemas.js')
 const ExpressError = require('../utils/ExpressError');
 const { isLoggedIn } = require('../middleware.js')
@@ -89,6 +89,7 @@ router.get('/watched', isLoggedIn, catchAsync(async (req, res, next) => {
     const type = "Watched"
     res.render('users/usertitles', { titles, type, userTitles })
 }));
+
 
 
 
