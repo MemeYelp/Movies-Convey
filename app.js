@@ -32,7 +32,6 @@ const MongoStore = require('connect-mongo').default;
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/movies-convey';
 // const dbUrl = process.env.DB_URL ;
 
-console.log("Connecting to MongoDB:", dbUrl.substring(0, 50) + "...");
 
 mongoose.connect(dbUrl).catch(err => {
     console.error("MongoDB Connection Error:", err.message);
@@ -83,7 +82,7 @@ const sessionConfig = {
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        secure: true,
+        // secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
