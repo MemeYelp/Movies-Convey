@@ -103,7 +103,6 @@ router.post('/register', isOtp, validOtp, catchAsync(async(req, res, next) => {
     try{
         const {email, username, password} = req.body;
         const user = new User({email, username});
-        console.log(user)
         const registerUser = await User.register(user, password);
         req.login(registerUser, err=> {
             if(err) return next(err);

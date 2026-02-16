@@ -15,9 +15,6 @@ router.get('/', catchAsync(async (req, res, next) => {
     res.render('home', { titles });
 }));
 
-router.get('/navbar', catchAsync(async (req, res, next) => {
-    res.render('nav')
-}));
 
 router.get('/whatismycurrentapitokenleft', catchAsync(async (req, res, next) => {
     const url = `${baseUrl}status/${apiKey}`;

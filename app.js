@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV !== "production"){
+if (process.env.NODE_ENV !== "production") {
     require('dotenv').config()
 }
 
@@ -32,7 +32,12 @@ const MongoStore = require('connect-mongo').default;
 const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/movies-convey';
 // const dbUrl = process.env.DB_URL ;
 
-mongoose.connect(dbUrl);
+console.log("Connecting to MongoDB:", dbUrl.substring(0, 50) + "...");
+
+mongoose.connect(dbUrl).catch(err => {
+    console.error("MongoDB Connection Error:", err.message);
+    process.exit(1);
+});
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -60,25 +65,25 @@ const secret = process.env.SECRET || 'Thisisakindofasecret';
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
-    crypto:{
+    crypto: {
         secret,
     }
 })
 
 
-store.on('error', function(e){
+store.on('error', function (e) {
     console.log("session store error", e)
 })
 
 const sessionConfig = {
     store,
-    name: 'session', 
+    name: 'session',
     secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
-        secure:true,
+        secure: true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
@@ -96,7 +101,7 @@ const scriptSrcUrls = [
 const styleSrcUrls = [
     "https://cdn.jsdelivr.net",
     "https://cdnjs.cloudflare.com",
-    
+
 ];
 const connectSrcUrls = [
     "https://cdn.jsdelivr.net",
@@ -146,7 +151,7 @@ passport.use(new localStartegy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req,res,next)=> {
+app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
@@ -178,5 +183,5 @@ app.use((err, req, res, next) => {
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {
-    console.log(`listing to Port ${port}`)
+    console.log(`listening to Port ${port}`)
 })
