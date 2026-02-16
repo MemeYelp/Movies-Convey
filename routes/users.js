@@ -11,7 +11,9 @@ const passKey = (process.env.EmailKey);
 
 
 const options = {
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
     auth: {
         user: "moviesconvey@gmail.com",
         pass: passKey,
