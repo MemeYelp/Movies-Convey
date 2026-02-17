@@ -94,7 +94,6 @@ async function sendOtpEmail(to) {
         return newOtp;
     } catch (e) {
         console.error('Error sending email:', e);
-        req.flash('error', "Something went wrong!");
         return res.redirect('/register')
     }
 }
