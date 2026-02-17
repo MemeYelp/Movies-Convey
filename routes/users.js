@@ -4,73 +4,8 @@ const User = require('../models/user');
 const catchAsync = require('../utils/catchAsync');
 const passport = require('passport');
 const { storeReturnTo } = require('../middleware');
-const crypto = require('crypto')
-const nodemailer = require('nodemailer');
-const passKey = (process.env.EmailKey);
+const { sendOtpEmail } = require('../utils/emailsend');
 
-
-
-const options = {
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: "moviesconvey@gmail.com",
-        pass: passKey,
-    }
-}
-
-const transporter = nodemailer.createTransport(options);
-
-
-const mailer = async (req, res, next) => {
-    const newOtp = crypto.randomInt(100000, 999999).toString();
-    req.session.otp = newOtp
-    req.session.otpExpire = Date.now() + (5 * 60 * 1000);
-    const { email } = req.body;
-    try {
-        const info = await transporter.sendMail({
-            from: '"Movies Convey" <moviesconvey@gmail.com>',
-            to: `${email}`,
-            subject: 'Welcome to Movies Convey! 🎞️',
-            text: "Hello! Welcome to our app. We are glad to have you here.",
-            html: `<div style="background-color: #0f172a; padding: 40px 20px; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff; text-align: center;">
-        <div style="max-width: 450px; margin: 0 auto; background-color: #1e293b; border-radius: 12px; padding: 30px; border: 1px solid #334155; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">
-            
-            <div style="margin-bottom: 25px;">
-            <span style="font-size: 24px; font-weight: bold; letter-spacing: 1px; color: #38bdf8;">🎬 MOVIES<span style="color: #ffffff;">CONVEY</span></span>
-            </div>
-
-            <h2 style="margin-bottom: 10px; font-size: 20px;">Verify Your Account</h2>
-            <p style="color: #94a3b8; font-size: 15px; margin-bottom: 30px;">
-            Welcome! Use the code below to finish setting up your Account and start tracking your favorite titles.
-            </p>
-
-            <div style="background-color: #0f172a; border: 2px dashed #38bdf8; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-            <span style="font-size: 32px; font-weight: bold; letter-spacing: 8px; color: #ffffff;">${newOtp}</span>
-            </div>
-
-            <p style="color: #64748b; font-size: 13px; line-height: 1.5;">
-            This code is valid for 10 minutes. <br>
-            If you didn't request this, you can safely ignore this email.
-            </p>
-
-            <hr style="border: 0; border-top: 1px solid #334155; margin: 30px 0;">
-            
-            <p style="color: #94a3b8; font-size: 12px;">
-            &#169; 2026 Movies Convey
-            </p>
-        </div>
-        </div>`
-        });
-        console.log("Message sent:", info.messageId);
-    } catch (e) {
-        console.error("Email error:", e.message);
-        req.flash('error', "Something went wrong!");
-        return res.redirect('/register')
-    }
-    next();
-}
 
 const isOtp = (req, res, next) => {
     if (!req.session.otp || Date.now() > req.session.otpExpire) {
@@ -98,8 +33,17 @@ router.get('/register', (req, res) => {
     res.render('users/register');
 })
 
-router.post('/registration', mailer, catchAsync(async (req, res, next) => {
+router.post('/registration', catchAsync(async (req, res, next) => {
     const { email, username, password, } = req.body;
+    try {
+        const newOtp = await sendOtpEmail(email);
+        req.session.otp = newOtp
+        req.session.otpExpire = Date.now() + (5 * 60 * 1000)
+    } catch (err) {
+        console.log(err)
+        req.flash('error', "Something went wrong!");
+        return res.redirect('/register')
+    }
     res.render('users/authentication', { email, username, password })
 }));
 
