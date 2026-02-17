@@ -31,6 +31,8 @@ async function createTransporter() {
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
+        port: 587,
+        secure: false,
         auth: {
             type: 'OAuth2',
             user: process.env.EMAIL_USER || 'moviesconvey@gmail.com',
@@ -50,7 +52,7 @@ async function sendOtpEmail(to) {
     }
 
     const newOtp = crypto.randomInt(100000, 999999).toString();
-    
+
 
     const htmlContent = `<div style="background-color: #0f172a; padding: 40px 20px; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #ffffff; text-align: center;">
         <div style="max-width: 450px; margin: 0 auto; background-color: #1e293b; border-radius: 12px; padding: 30px; border: 1px solid #334155; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);">

@@ -47,7 +47,7 @@ db.once("open", () => {
 const app = express();
 
 app.set('query parser', 'extended');
-
+app.set('trust proxy', 1)
 
 app.engine('ejs', ejsmate)
 app.set('views', path.join(__dirname, 'views'));
