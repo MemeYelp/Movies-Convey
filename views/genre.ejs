@@ -27,7 +27,7 @@
                                     
                                     <div class="d-flex align-items-center ps-2 justify-content-between">
                                     <p class="me-auto card-text fw-bold text-start m-0 text-secondary fs-6 text-capitalize">
-                                        <%= title.year %> <%= title.type.replace('_', ' ') %> 
+                                        <%= title.year %> <span class="titletype"><%= title.type.replace('_', ' ') %></span> 
                                     </p>
                                     <form action="/user/watched" method="post" id="watched" data-titleid="<%= title.id %>">
                                         <input name="_id" type="hidden" value="<%= title.id %>" required>
@@ -38,7 +38,7 @@
                                 </div>
                             <hr class="my-0">
                             <div class="card-body flex-grow-1 d-flex align-items-center justify-content-center">
-                                <h5 class="card-title fw-bold">
+                                <h5 class="card-title fw-bold titlename">
                                     <%= title.title %>
                                 </h5>
                             </div>
