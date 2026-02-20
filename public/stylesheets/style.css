@@ -1,6 +1,6 @@
 body {
   min-height: 100vh;
-  background-color:#98f5f3cc;
+  background-color: #98f5f3cc;
   background:
     linear-gradient(135deg,
       rgba(124, 58, 237, 0.45),
@@ -11,8 +11,8 @@ body {
   animation: lensShift 10s ease-in-out infinite;
 }
 
-.scrollable-menu { 
-  scrollbar-width: none; 
+.scrollable-menu {
+  scrollbar-width: none;
   scroll-behavior: smooth;
 }
 
@@ -104,12 +104,41 @@ button#wishlistSubmit {
   padding: .1rem .34rem;
 }
 
-.tleID{
+.tleID {
   height: fit-content;
   position: absolute;
   right: 0;
 }
 
-form#formWishlist,form#formWatched{
+form#formWishlist,
+form#formWatched {
   width: 20%;
+}
+
+.titlename {
+  font-size: 0.95rem;
+  transition: 0.15s;
+}
+
+.titletype {
+  font-size: 0.95rem;
+  transition: 0.15s;
+}
+
+@media(min-width:1200px) {
+  .titlename {
+    font-size: 1.25rem;
+  }
+}
+
+@media(max-width:575px){
+  .titletype {
+    font-size: 0.85rem;
+  }
+}
+
+@media(max-width:475px){
+  .titletype {
+    font-size: 0.79rem;
+  }
 }
